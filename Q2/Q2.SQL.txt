@@ -13,9 +13,8 @@ DROP TABLE IF EXISTS movie_overview;
 -- (a.i) Create tables
 
 -- [insert your SQL statement(s) BELOW this line]
-
-
-
+CREATE TABLE movies(id integer, name text, score integer);
+CREATE TABLE cast(movie_id integer, cast_id integer, cast_name text);
 
 -- [insert your SQL statement(s) ABOVE this line]
 
@@ -28,8 +27,8 @@ DROP TABLE IF EXISTS movie_overview;
 -- (a.ii) Import data
 
 -- [insert your SQLite command(s) BELOW this line]
-
-
+.import 'movie-name-score.txt' movies
+.import 'movie-cast.txt' cast
 
 
 -- [insert your SQLite command(s) ABOVE this line]
@@ -46,8 +45,9 @@ SELECT COUNT(*) FROM cast;
 -- (b) Create indexes
 
 -- [insert your SQL statement(s) BELOW this line]
-
-
+CREATE INDEX scores_index on movies(score);
+CREATE INDEX movie_index on movies(id);
+CREATE INDEX cast_index on cast(cast_id);
 
 
 -- [insert your SQL statement(s) ABOVE this line]
@@ -62,7 +62,9 @@ SELECT COUNT(*) FROM cast;
 
 -- [insert your SQL statement(s) BELOW this line]
 
-
+SELECT avg(score)
+FROM movies
+WHERE score >=5;
 
 
 -- [insert your SQL statement(s) ABOVE this line]
@@ -76,7 +78,10 @@ SELECT COUNT(*) FROM cast;
 
 -- [insert your SQL statement(s) BELOW this line]
 
-
+SELECT id, name, score 
+FROM movies
+ORDER BY score ASC 
+LIMIT 5;
 
 
 -- [insert your SQL statement(s) ABOVE this line]
@@ -90,7 +95,11 @@ SELECT COUNT(*) FROM cast;
 
 -- [insert your SQL statement(s) BELOW this line]
 
-
+SELECT cast_id, cast_name, COUNT(cast_id) 
+FROM cast 
+GROUP BY cast_name 
+HAVING COUNT(cast_id) = 2 
+LIMIT 10;
 
 
 -- [insert your SQL statement(s) ABOVE this line]
@@ -104,7 +113,14 @@ SELECT COUNT(*) FROM cast;
 
 -- [insert your SQL statement(s) BELOW this line]
 
-
+SELECT cast_id, cast_name, AVG(score) 
+FROM cast 
+INNER JOIN movies ON movie_id = id
+WHERE score > 40
+GROUP BY cast_name
+HAVING COUNT(cast_id) > 2
+ORDER BY AVG(score) DESC
+LIMIT 10;
 
 
 -- [insert your SQL statement(s) ABOVE this line]
