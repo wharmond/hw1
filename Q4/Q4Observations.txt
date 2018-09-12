@@ -1,0 +1,5 @@
+if(endsWith(value,"M"),"0","1")
+if(value==null,"0",value)
+if(endsWith(value,"55+"),"55-100",value)
+if(toNumber(value)>1000,"1",0)
+facetCount(value,"value","Product_ID")
