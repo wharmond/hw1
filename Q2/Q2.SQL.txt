@@ -115,11 +115,11 @@ LIMIT 10;
 
 SELECT cast_id, cast_name, AVG(score) 
 FROM cast 
-INNER JOIN movies ON movie_id = id
-WHERE score > 40
-GROUP BY cast_name
-HAVING COUNT(cast_id) > 2
-ORDER BY AVG(score) DESC
+INNER JOIN movies ON movie_id = id 
+WHERE score > 40 
+GROUP BY cast_name 
+HAVING COUNT(cast_id) > 2 
+ORDER BY AVG(score) DESC 
 LIMIT 10;
 
 
@@ -133,10 +133,19 @@ LIMIT 10;
 -- (g) Creating views
 
 -- [insert your SQL statement(s) BELOW this line]
-
-
-
-
+CREATE VIEW good_collaboration AS 
+SELECT 
+	c1.cast_id as cast_member_id1,
+	c2.cast_id as cast_member_id2,
+	COUNT(*) as movie_count,
+	AVG(score) as average_movie_score
+FROM cast c1 
+INNER JOIN cast c2 
+ON c1.movie_id = c2.movie_id and c1.cast_id < c2.cast_id
+INNER JOIN movies 
+ON c1.movie_id = id
+GROUP BY cast_member_id1, cast_member_id2
+HAVING COUNT(*) > 2 AND AVG(score) >= 50;
 -- [insert your SQL statement(s) ABOVE this line]
 
 -- [the following statement(s) are for autograding. DO NOT REMOVE.]
