@@ -3,7 +3,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    #return("hello world!")
     return(render_template('hello.html'))
 
 @app.route("/signUp")
@@ -14,10 +13,16 @@ def signUp():
 def signUpUser():
     user =  request.form['username'];
     password = request.form['password'];
-    if ((len(password)>7) and (any(c.isdigit() for c in password)) and (any(c.isupper() for c in password))):
-                return json.dumps({'status':'OK','user':user,'pass':password});
+    p_err = []
+    if not (len(password)>7):
+        p_err.append(1)
+    if not (any(c.isdigit() for c in password)):
+        p_err.append(2)
+    if not (any(c.isupper() for c in password)):
+        p_err.append(3)
+    if p_err == []:
+        return(json.dumps({'status':'OK','user':user,'pass':password}))
     else:
-        return json.dumps({'status':'BAD','user':user,'pass':[1,3]});
-        
+        return(json.dumps({'status':'BAD','user':user,'pass':p_err}))
 if __name__ == "__main__":
-    app.run()
+    app.run(debug= True)
