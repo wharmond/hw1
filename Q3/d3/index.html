@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>tstockmeyer3</title>
+        <script type="text/javascript" src="d3/d3.v3.min.js"></script>
+        <script type="text/javascript">
+            d3.select("heading")
+            .append("p")
+            .text("Wilson Harmond")
+        </script>
+    </head>
+    <body>
+        <script src="https://d3js.org/d3.v3.min.js"></script>
+        <script type="text/javascript">
+            d3.select("body")
+            .append("p")
+            .text("Wilson Harmond");
+
+            var cross_s = [];
+            for (var i = 0; i < 30; i++) {
+                var newNumber = Math.floor(Math.random() * (46) + 5);
+                cross_s.push(newNumber);
+            }
+
+            var triangle_s = [];
+            for (var i = 0; i < 30; i++) {
+                var newNumber = Math.floor(Math.random() * (46) + 5);
+                triangle_s.push(newNumber);
+            }
+
+            sizes = triangle_s.concat(cross_s)
+            var total = 0;
+            for(var i=0;i<sizes.length;i++){
+                total += sizes[i];
+            }
+
+            var avg = total / sizes.length
+
+            var triangle_c = []
+            for (var i = 0; i<30; i++) {
+                var color = ''
+                if (triangle_s[i]>avg) {color='blue'} else {color = 'red'};
+                triangle_c.push(color);
+            }
+
+            var cross_c = []
+            for (var i = 0; i<30; i++) {
+                var color = ''
+                if (cross_s[i]>avg) {color='blue'} else {color = 'red'};
+                cross_c.push(color);
+            }
+
+            var triangle_x = [];
+            for (var i = 0; i < 30; i++) {
+                var newNumber = Math.random() * 100;
+                triangle_x.push(newNumber);
+            }
+            var triangle_y = [];
+            for (var i = 0; i < 30; i++) {
+                var newNumber = Math.random() * 100;
+                triangle_y.push(newNumber);
+            }
+
+
+
+            // Cross Data 
+            var cross_x = [];
+            for (var i = 0; i < 30; i++) {
+                var newNumber = Math.random() * 100;
+                cross_x.push(newNumber);
+            }
+            var cross_y = [];
+            for (var i = 0; i < 30; i++) {
+                var newNumber = Math.random() * 100;
+                cross_y.push(newNumber);
+            }
+
+
+            cross_data = []
+            for (var i = 0; i < 30; i++) {
+                cross_data.push({
+                    cx: cross_x[i],
+                    cy: cross_y[i],
+                    csized: cross_s[i],
+                    ccolor: cross_c[i]
+                })
+            }
+
+            triangle_data = []
+            for (var i = 0; i < 30; i++) {
+                triangle_data.push({
+                    x: triangle_x[i],
+                    y: triangle_y[i],
+                    sized: triangle_s[i],
+                    color: triangle_c[i]
+                })
+            }
+
+           //scales
+            var width = 400
+            var height = 400
+            var margin = { top: 40, right: 40, bottom:40, left: 60 }
+
+            var x = d3.scale.linear()
+                .range([0,width]);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom")
+                .ticks(width/40)
+                .tickFormat(d3.format(''))
+                //.tickSubdivide(0)
+                .tickPadding(10)
+                .tickSize(2);
+
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left")
+                .tickSize(2)
+                .tickPadding(10)
+                .ticks(height/40)
+                .tickFormat(d3.format(''));
+
+            //Create SVG elecment
+            var vis = d3.select("body")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+            //x and y data range
+            x_set = cross_x.concat(triangle_x)
+            y_set = cross_y.concat(triangle_y)
+
+            x.domain(d3.extent(triangle_data.concat(cross_data), function(d) { return d.x; })).nice()
+            y.domain(d3.extent(triangle_data.concat(cross_data), function(d) { return d.y; })).nice()
+
+            //x-axis
+            vis.append("g")
+                .attr("class","x axis")
+                .attr("transform","translate(0,"+height+")")
+                .call(xAxis);
+
+            vis.append("g")
+                .attr("class","y axis")
+                .call(yAxis);
+
+            //triangles display
+            vis.selectAll(".truangle")
+                .data(triangle_data)
+            .enter().append("path")
+                .attr("class", "triangle")
+                .attr("d", d3.svg.symbol().type("triangle-up")())
+                .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
+                .attr("d",d3.svg.symbol().type('triangle-up').size(function(d) {return d.sized;}))
+                .style("fill", function (d) {return d.color});
+
+            //crosses display
+            vis.selectAll(".cross")
+                .data(cross_data)
+            .enter().append("path")
+                .attr("class", "cross")
+                .attr("d", d3.svg.symbol().type("cross")())
+                .attr("transform", function(d) { return "translate(" + x(d.cx) + "," + y(d.cy) + ")"; })
+                .attr("d",d3.svg.symbol().type('cross').size(function(d) {return d.csized;}))
+                .style('fill', function(d) {return d.ccolor});
+
+        </script>
+    </body>
+</html>     
