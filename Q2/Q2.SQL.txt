@@ -174,10 +174,14 @@ SELECT AVG(average_movie_score) FROM good_collaboration;
 -- (i) Create FTS table and import data
 
 -- [insert your SQL statement(s) BELOW this line]
-
-
-
-
+CREATE VIRTUAL TABLE movie_overview
+USING fts3(
+	id integer, 
+	name text,
+	year integer, 
+	overview text, 
+	popularity decimal);
+.import 'movie-overview.txt' movie_overview
 -- [insert your SQL statement(s) ABOVE this line]
 
 -- ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** --
@@ -186,8 +190,9 @@ SELECT AVG(average_movie_score) FROM good_collaboration;
 
 -- [insert your SQL statement(s) BELOW this line]
 
-
-
+SELECT COUNT(*)
+FROM movie_overview
+WHERE overview MATCH 'fight';
 
 -- [insert your SQL statement(s) ABOVE this line]
 
@@ -199,9 +204,9 @@ SELECT AVG(average_movie_score) FROM good_collaboration;
 -- (i.2) List movies with "love" and "story" nearby
 
 -- [insert your SQL statement(s) BELOW this line]
-
-
-
+SELECT COUNT(*)
+FROM movie_overview
+WHERE overview MATCH 'love NEAR/5 story';
 
 -- [insert your SQL statement(s) ABOVE this line]
 
