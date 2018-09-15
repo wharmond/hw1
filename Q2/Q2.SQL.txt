@@ -160,10 +160,18 @@ SELECT AVG(average_movie_score) FROM good_collaboration;
 -- (h) Find the best collaborators
 
 -- [insert your SQL statement(s) BELOW this line]
-
-
-
-
+SELECT cast_id,
+       cast_name,
+       average_movie_score as collaboration_score
+FROM good_collaboration
+INNER JOIN cast
+ON (SELECT cast_member_id1 
+    from good_collaboration 
+    UNION
+    SELECT cast_member_id2 
+    FROM good_collaboration) = cast_id
+GROUP BY cast_name
+ORDER BY collaboration_score DESC;
 -- [insert your SQL statement(s) ABOVE this line]
 
 -- [the following statement(s) are for autograding. DO NOT REMOVE.]
