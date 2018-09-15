@@ -1,0 +1,7 @@
+The graph features 1533 nodes and 2667 edges and was plotted using OpenOrd. The number of edges made it difficult to avoid overlap.
+
+The data is painted based on sub-genre or film studio it's most associated with: 
+	Red: Romantic Comedy
+	Blue: Dreamworks
+	Green: 20th Century Fox
+	Yellow: Disney/Pixar

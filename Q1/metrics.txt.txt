@@ -1,0 +1,10 @@
+Average Node Degree: 3.587
+    The average movie has less than 4 similar movies
+
+Diameter of the Graph: 15
+    The furtherest (direct) distance between to movies, with the exception
+    of unconnected clusters, is a path of 15 movies
+
+Average Path Length: 6.147
+    On average, two movies can be connected by about 6 similar
+    films.
